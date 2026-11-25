@@ -1,5 +1,13 @@
 # @tanstack/solid-hotkeys
 
+## 0.26.1
+
+### Patch Changes
+
+- [#302](https://github.com/TanStack/hotkeys/pull/302) [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c) - A server render of a component that calls `createHotkeyRecorder` no longer prints Solid's `[SERVER_WRITE]` warning, which Solid says will become an error. The recorder reset its state when the server render ended, while its readers were still subscribed.
+- Updated dependencies [[`980d86f`](https://github.com/TanStack/hotkeys/commit/980d86fc955c25e396d35b914dc49aa480a51a33), [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c), [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c), [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c), [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c), [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c), [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c), [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c)]:
+  - @tanstack/hotkeys@0.34.0
+
 ## 0.26.0
 
 ### Minor Changes

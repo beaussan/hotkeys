@@ -1,5 +1,27 @@
 # @tanstack/hotkeys
 
+## 0.34.0
+
+### Minor Changes
+
+- [#299](https://github.com/TanStack/hotkeys/pull/299) [`980d86f`](https://github.com/TanStack/hotkeys/commit/980d86fc955c25e396d35b914dc49aa480a51a33) - With the default `ignoreInputs: 'auto'`, hotkeys on function keys (`F1` to `F24`) and media keys now fire while a text field has focus, with any modifiers. These keys type nothing, so a text field has no use for them. Before, an `F5` or `Shift+F10` hotkey was skipped in a text field, and the browser acted on the key instead. Media keys are the keys whose names start with `Audio`, `Browser`, `Launch`, or `Media`, such as `MediaPlayPause` and `AudioVolumeUp`. A sequence follows its first step, so a sequence such as `['F2', 'R']` now also fires in text fields, and its later keys don't type into the field. To keep one of these hotkeys out of text fields, set `ignoreInputs: true` on it.
+
+### Patch Changes
+
+- [#302](https://github.com/TanStack/hotkeys/pull/302) [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c) - Fix server renders in FastBoot when a component reads held keys or a hotkey hint. FastBoot defines a `window` that can't listen for events, and the key state tracker called `window.addEventListener` on it. The tracker now skips its listeners when `window` can't listen, so held-key readers return no keys and hints stay hidden on the server.
+
+- [#302](https://github.com/TanStack/hotkeys/pull/302) [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c) - `formatForDisplay` orders modifiers the same way on every platform. Held modifiers joined in the order they were pressed, such as `'Shift+Control'`, now display as `Ctrl+Shift` on Windows and Linux, as they already did on macOS.
+
+- [#302](https://github.com/TanStack/hotkeys/pull/302) [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c) - Held-key state releases AltGr when a later key press reports AltGr as up, so a missed AltGr keyup no longer hides hotkey hints until the window loses focus.
+
+- [#302](https://github.com/TanStack/hotkeys/pull/302) [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c) - Held-key state no longer keeps an input method's `Process` keydown, whose keyup may never arrive. A modifier pressed during a composition still counts as held.
+
+- [#302](https://github.com/TanStack/hotkeys/pull/302) [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c) - A hotkey callback that throws no longer stops the other hotkeys on the same key press. The error is reported as uncaught on the next microtask, the way separate event listeners report theirs.
+
+- [#302](https://github.com/TanStack/hotkeys/pull/302) [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c) - The hotkey recorder no longer throws on a `keydown` with no `key` or `code`, which browser autofill and password managers send. It rejects the press with the `missing-code` reason instead. Held-key state also ignores these events, so it no longer shows an empty key or drops a held Shift.
+
+- [#302](https://github.com/TanStack/hotkeys/pull/302) [`26983f5`](https://github.com/TanStack/hotkeys/commit/26983f5ef5c3fb0c158c02f5442937f8669c412c) - Hotkeys now prevent the browser's default action on pages that load zone.js, such as Angular apps that use zone change detection, even when another script added a passive `keydown` listener first. zone.js runs every listener it patches for one event type from a single native listener that takes the first listener's options, so `preventDefault` failed after a passive one, and `Mod+S` opened the browser's Save dialog. The hotkey and recorder listeners now attach with the browser's own `addEventListener`. Because of that, a callback passed straight to `HotkeyManager.register` no longer runs inside the Angular zone, so code that relies on zone change detection should call `NgZone.run` in the callback. The Angular adapter already runs callbacks this way.
+
 ## 0.33.1
 
 ### Patch Changes
